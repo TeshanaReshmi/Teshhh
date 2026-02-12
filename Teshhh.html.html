@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For Manupa 💖</title>
+    <style>
+        body {
+            margin: 0;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom right, #ffccdd, #ffe6f0);
+            overflow: hidden;
+        }
+
+        #container {
+            margin-top: 120px;
+        }
+
+        h1 {
+            color: #ff3399;
+            font-size: 40px;
+        }
+
+        h2 {
+            color: #cc0066;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px;
+            transition: 0.3s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d88;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #999;
+            color: white;
+            position: absolute;
+        }
+
+        #message {
+            font-size: 26px;
+            color: #ff0066;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .heart {
+            position: absolute;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            from { transform: translateY(100vh); opacity: 1; }
+            to { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        .confetti {
+            position: absolute;
+            font-size: 25px;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="container">
+    <h1 id="typeText"></h1>
+    <div id="question" style="display:none;">
+        <h2>Will you be my Valentine? 💖</h2>
+        <button id="yesBtn" onclick="sayYes()">Yes 💘</button>
+        <button id="noBtn" onmouseover="moveButton()">No 😢</button>
+        <div id="message"></div>
+    </div>
+</div>
+
+<script>
+    // TYPEWRITER INTRO
+    let text = "Manupa... there’s something I’ve been meaning to ask you 💕";
+    let i = 0;
+
+    function typeWriter() {
+        if (i < text.length) {
+            document.getElementById("typeText").innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 60);
+        } else {
+            setTimeout(() => {
+                document.getElementById("question").style.display = "block";
+            }, 800);
+        }
+    }
+
+    window.onload = typeWriter;
+
+    // YES FUNCTION
+    function sayYes() {
+        document.getElementById("message").innerHTML =
+            "YAYYYYY BABYYYY 😭💖 You just made me the happiest girl ever 💕";
+        launchConfetti();
+    }
+
+    // NO BUTTON CHAOS - shrink, cute messages, disappear after 10 hovers
+    let yesSize = 18;
+    let noBtn = document.getElementById("noBtn");
+
+    let cuteMessages = [
+        "Are you sure? 🥺",
+        "Think again Manupa 👀",
+        "Don't break my heart 😭",
+        "Last chance 😏",
+        "No one says No to me 💕",
+        "Resistance is futile 💖",
+        "You know you want to say Yes 😘",
+        "There's only one right answer 💘",
+        "Manupa… it’s a Yes or Yes situation 😍",
+        "C’mon… make me happy 💕"
+    ];
+
+    let hoverCount = 0;  // Count hovers
+
+    function moveButton() {
+        // Move the No button randomly
+        let x = Math.random() * (window.innerWidth - 100);
+        let y = Math.random() * (window.innerHeight - 50);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+
+        // Grow Yes button
+        yesSize += 5;
+        document.getElementById("yesBtn").style.fontSize = yesSize + "px";
+
+        // Shrink No button gradually
+        let shrinkStep = 2; // px per hover
+        let currentSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+        let newSize = currentSize - shrinkStep;
+        noBtn.style.fontSize = newSize + "px";
+
+        // Show the next cute message
+        if (hoverCount < cuteMessages.length) {
+            document.getElementById("message").innerHTML = cuteMessages[hoverCount];
+        }
+
+        hoverCount++;
+
+        // After 10 hovers, hide No button & show final message
+        if (hoverCount >= cuteMessages.length) {
+            noBtn.style.display = "none";
+            document.getElementById("message").innerHTML = "The answer is obviously Yes 💘";
+        }
+    }
+
+    // FLOATING HEARTS
+    setInterval(function() {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = Math.random() * 25 + 15 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+    }, 400);
+
+    // CONFETTI
+    function launchConfetti() {
+        for (let i = 0; i < 40; i++) {
+            let confetti = document.createElement("div");
+            confetti.className = "confetti";
+            confetti.innerHTML = "🎉";
+            confetti.style.left = Math.random() * window.innerWidth + "px";
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 3000);
+        }
+    }
+</script>
+
+</body>
+</html>
